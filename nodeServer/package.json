@@ -1,0 +1,25 @@
+{
+  "name": "nodeserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild index.ts --bundle --outfile=build/index.js --platform=node --main-fields=module,main",
+    "postbuild": "docker build -t mockserver . ",
+    "dev": "nodemon index.ts"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.2.5",
+    "@types/pg": "^8.10.2",
+    "esbuild": "^0.17.19",
+    "nodemon": "^2.0.22",
+    "typescript": "^5.1.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.11.0"
+  }
+}
