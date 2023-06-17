@@ -1,7 +1,8 @@
 import { Pool, QueryResult } from "pg";
-import {networkInterfaces} from 'os'
+import { getIp } from "./eth0";
 
-export const nets = networkInterfaces();
+
+
 
 const client = new Pool({
     host: process.env.DB_HOST,
@@ -23,7 +24,7 @@ const client = new Pool({
         client.query(`
         INSERT INTO log_pods (queyryPodIp, serverPodIp)
         VALUES ($1, $2)
-        `, ['test',nets.eth0.at(0).address || 'error'])
+        `, ['test', getIp()])
     } catch (error) {
         throw new Error(error.detail)
     }

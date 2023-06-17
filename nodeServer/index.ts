@@ -1,12 +1,17 @@
 import express, { Request, Response } from 'express';
-import { query, nets } from './src/db';
+import { query } from './src/db';
 import crypto from 'crypto';
-
+import { getIp } from './src/eth0';
 
 const app = express();
 app.use(express.json());       
 app.use(express.urlencoded({extended: true})); 
 
+app.get('/info', async (req:Request, res:Response) => {
+
+  res.send(`Hello World! ${getIp()}`)
+  
+});
 
 
 app.get('/me/:name', async (req:Request, res:Response) => {
@@ -54,10 +59,10 @@ app.listen(port, async () => {
     query(`
     INSERT INTO log_pods (queyryPodIp, serverPodIp)
     VALUES ($1, $2)
-    `, ['start',nets.eth0.at(0).address || 'error'])
+    `, ['start',getIp()])
   
   } catch (error) {
-    console.log(nets)
+    console.log(error)
   }
 
   return console.log(`Express is listening at http://localhost:${port}`);
