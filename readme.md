@@ -101,3 +101,8 @@ Faker creates a random details for the user to be added and will receive an erro
 
 /testDataGen for creating initial set of fake user data
 
+
+## Ports
+
+See /pdf for ports to open. The chart shows the master node running in windows host, which proved to be a headache since there seems to be no good way to forward udp traffic to hyper-v network interface easily. UDP traffic is needed for k3s to see stats of the nodes. Without it you wont get resource stats and the k3s wont be able to 'elect' or promote a node for the monitoring job. (read: lots of errors) 
+
