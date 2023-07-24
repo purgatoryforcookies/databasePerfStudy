@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "esbuild index.ts --bundle --outfile=build/index.js --platform=node --main-fields=module,main",
-    "postbuild": "docker build -t mockserver . ",
+    "postbuild": "docker build -t miximuxi/mockserver-amd . && docker push miximuxi/mockserver-amd",
     "dev": "nodemon index.ts"
   },
   "author": "",

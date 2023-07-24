@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: node-server
   namespace: default
+
 spec:
   replicas: 4
   selector:
@@ -16,37 +17,52 @@ spec:
     spec:
       containers:
         - name: node-server
-          image: rancher/hello-world
+          image: miximuxi/mockserver-amd
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "156Mi"
+              cpu: "300m"
+     
+          env:
+            - name: DB_HOST
+              value: "nope"
+            - name: NODE_SERVER_PORT
+              value: '3002'
           ports:
-          - containerPort: 80
+          - containerPort: 3002
+      nodeSelector:
+        role: serverPod 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: node-server-service
 spec:
+  type: LoadBalancer
   selector:
     app: node-server
   ports:
   - port: 80
+    targetPort: 3002
     protocol: TCP
+    name: http
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: helloworld-ingress
-  annotations:
-    ingress.kubernetes.io/ssl-redirect: "false"
-    kubernetes.io/ingress-class: "traefik"
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: node-server-service
-            port:
-              number: 80
----
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: node
+#   annotations:
+#     ingress.kubernetes.io/ssl-redirect: "false"
+#     kubernetes.io/ingress.class: traefik
+# spec:
+#   rules:
+#   - http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: node-server-service
+#             port:
+#               number: 80
