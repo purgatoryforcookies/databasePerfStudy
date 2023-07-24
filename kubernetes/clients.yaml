@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locust-worker
+  namespace: default
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: locust-worker
+  template:
+    metadata:
+      labels:
+        app: locust-worker
+    spec:
+      containers:
+        - name: locust-worker
+          image: miximuxi/mockclient-amd
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "85Mi"
+              cpu: "80m"
+      nodeSelector:
+        role: clientPod 
+---
